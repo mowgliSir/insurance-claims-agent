@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+langchain4j:
+  ollama:
+    base-url: http://localhost:11434
+    model-name: llama3
+    timeout: 120s
