@@ -4,5 +4,5 @@ server:
 langchain4j:
   ollama:
     base-url: http://localhost:11434
-    model-name: llama3
+    model-name: llama3.1
     timeout: 120s
