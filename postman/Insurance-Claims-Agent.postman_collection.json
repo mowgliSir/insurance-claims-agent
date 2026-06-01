@@ -1,0 +1,316 @@
+{
+	"info": {
+		"name": "Insurance Claims Agent",
+		"description": "GEICO Insurance Claims Agent - Agentic AI Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		}
+	],
+	"item": [
+		{
+			"name": "Health & Info",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/claims/health",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "health"]
+						}
+					}
+				},
+				{
+					"name": "List All Policies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/claims/policies",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "policies"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Day 1 - Extract Claim Details",
+			"item": [
+				{
+					"name": "Extract - Car Accident",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Car accident on highway, rear bumper smashed\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/analyze",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "analyze"]
+						}
+					}
+				},
+				{
+					"name": "Extract - Theft Claim",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Someone broke into my car last night. Driver side window is shattered and GPS was stolen. Happened on June 1st 2026.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/analyze",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "analyze"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Day 2 - Agent Process Claim",
+			"item": [
+				{
+					"name": "Process - APPROVED (Collision, Premium Plan)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Policy ID: POL-1001. Collision accident. Rear bumper damaged. Severity moderate.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/process",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "process"]
+						}
+					}
+				},
+				{
+					"name": "Process - DENIED (Theft, Basic Plan)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Policy ID: POL-1002. My car was stolen from the mall parking lot. Severity severe.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/process",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "process"]
+						}
+					}
+				},
+				{
+					"name": "Process - DENIED (Expired Policy)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Policy ID: POL-1004. Someone keyed my car. Driver side door scratched. Severity minor.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/process",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "process"]
+						}
+					}
+				},
+				{
+					"name": "Process - APPROVED (Weather, Premium Plan)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Policy ID: POL-1003. A tree fell on my truck during the storm. Hood and windshield are destroyed. Severity severe.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/process",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "process"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Day 3 - Conversational Chat",
+			"item": [
+				{
+					"name": "Chat Turn 1 - Introduce Policy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"test1\",\n    \"message\": \"Hi, my policy is POL-1003\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/chat",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "chat"]
+						}
+					}
+				},
+				{
+					"name": "Chat Turn 2 - Describe Damage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"test1\",\n    \"message\": \"A tree fell on my truck. Hood and windshield destroyed.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/chat",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "chat"]
+						}
+					}
+				},
+				{
+					"name": "Chat Turn 3 - Ask About Coverage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"test1\",\n    \"message\": \"Is this covered? What will I have to pay?\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/chat",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "chat"]
+						}
+					}
+				},
+				{
+					"name": "Chat - Different Session (No Memory)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"test999\",\n    \"message\": \"What was my policy ID?\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/chat",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "chat"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Error Handling",
+			"item": [
+				{
+					"name": "Validation - Empty Description",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/analyze",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "analyze"]
+						}
+					}
+				},
+				{
+					"name": "Process - Invalid Policy ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Policy ID: POL-9999. Car accident. Rear bumper damaged. Severity minor.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/claims/process",
+							"host": ["{{base_url}}"],
+							"path": ["api", "claims", "process"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
